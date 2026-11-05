@@ -1,0 +1,139 @@
+[
+  {
+    "nodeid": "Environment: Prod | Country: Cashland | Project: AdminUAT1 | Browser: Chromium",
+    "name": "End-to-End CVA Happy Path Test",
+    "outcome": "failed",
+    "duration": 254.09636500000488,
+    "error": "page = <Page url='https://cvawebapp.scibd.info/PaymentTrackingOverview'>\n\n    def test_cva_happy_path(page):\n    \n        login = LoginPage(page)\n        dashboard = Dashboard(page)\n        beneficiary = BeneficiaryListPage(page)\n        payment = PaymentListPage(page)\n        sampling = SamplingPage(page)\n    \n        with report.step(\"Login\"):\n            login.load()\n            login.login(\"SuperAdmin\", \"Welcome@2\")\n            report.assert_visible(login.userIcon, \"User icon visible after login\", timeout=15000)\n    \n        with report.step(\"Verify login with bth_qa_reporter function\"):\n            expect(page.locator(\"//div[@class='rf-page-header-action-item-username']\")).to_be_visible()\n    \n        with report.step(\"Select Domain\"):\n            page.wait_for_timeout(10000)\n            report.assert_enabled(dashboard.domain_drp, \"Domain dropdown enabled\")\n            dashboard.select_domain()\n            page.wait_for_timeout(1000)\n            page.wait_for_load_state(\"networkidle\")\n    \n        with report.step(\"Select Country & Project\"):\n            page.wait_for_timeout(1000)\n            report.assert_enabled(dashboard.country_drp, \"Country dropdown enabled\")\n            dashboard.select_country()\n            page.wait_for_timeout(1000)\n            dashboard.select_project()\n            page.wait_for_load_state(\"networkidle\")\n    \n        with report.step(\"Create Beneficiary List\"):\n            beneficiary_list_id = beneficiary.create_beneficiary(\"test\")\n            print(\"Beneficiary List ID: \", beneficiary_list_id)\n            login.logout()\n    \n        with report.step(\"Approve Beneficiary List\"):\n            login.login2(\"shah.ca\", \"WelcomeCVA@2026\")\n            beneficiary.approve_beneficiary(beneficiary_list_id)\n    \n        with report.step(\"Create Payment List\"):\n            payment_list_id = payment.create_payment(beneficiary_list_id)\n            print(\"Payment List ID: \", payment_list_id)\n            login.logout()\n    \n        with report.step(\"Approve Payment List\"):\n            login.login(\"SuperAdmin\", \"Welcome@2\")\n>           payment.approve_payment(payment_list_id)\n\ntests\\test_cva_happyPath.py:77: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _\n\nself = <pages.paymentList_page.PaymentListPage object at 0x000001CE5BEED940>, payment_list_id = 'WLE3KVK1'\n\n    def approve_payment(self, payment_list_id):\n        print(f\"Received ID: {payment_list_id}\")\n        expect(self.page.locator(\".preloader-rf-backarea\")).to_be_hidden(\n            timeout=60000\n        )\n        self.page.goto(urljoin(self.page.url, \"/PaymentListApproval\"))\n        expect(self.payment_search).to_be_visible(timeout=60000)\n        expect(self.page.locator(\".preloader-rf-backarea\")).to_be_hidden(\n            timeout=60000\n        )\n        self.payment_search.fill(payment_list_id)\n        self.payment_search.press(\"Enter\")\n        row = self.page.locator(\"tbody tr\").filter(has_text=payment_list_id)\n        expect(row).to_be_visible(timeout=60000)\n        row.click()\n>       expect(self.view_payments_btn).to_be_visible(timeout=60000)\nE       AssertionError: Locator expected to be visible\nE       Actual value: None\nE       Error: element(s) not found \nE       Call log:\nE         - Expect \"to_be_visible\" with timeout 60000ms\nE         - waiting for get_by_role(\"button\", name=\"View Payments\")\nE           - waiting for\" https://cvawebapp.scibd.info/PaymentListApproval\" navigation to finish...\nE           - navigated to \"https://cvawebapp.scibd.info/PaymentListApproval\"\n\npages\\paymentList_page.py:135: AssertionError",
+    "steps": [
+      {
+        "name": "Login",
+        "status": "PASS",
+        "details": "",
+        "expected": null,
+        "actual": null,
+        "screenshot": null,
+        "duration": 6.292245900011039
+      },
+      {
+        "name": "User icon visible after login",
+        "status": "PASS",
+        "details": "Playwright assertion passed: visible",
+        "expected": "visible",
+        "actual": "visible",
+        "screenshot": null
+      },
+      {
+        "name": "Verify login with bth_qa_reporter function",
+        "status": "PASS",
+        "details": "",
+        "expected": null,
+        "actual": null,
+        "screenshot": null,
+        "duration": 0.012130999995861202
+      },
+      {
+        "name": "Select Domain",
+        "status": "PASS",
+        "details": "",
+        "expected": null,
+        "actual": null,
+        "screenshot": null,
+        "duration": 13.844281700003194
+      },
+      {
+        "name": "Domain dropdown enabled",
+        "status": "PASS",
+        "details": "Playwright assertion passed: enabled",
+        "expected": "enabled",
+        "actual": "enabled",
+        "screenshot": null
+      },
+      {
+        "name": "Select Country & Project",
+        "status": "PASS",
+        "details": "",
+        "expected": null,
+        "actual": null,
+        "screenshot": null,
+        "duration": 10.793615799993859
+      },
+      {
+        "name": "Country dropdown enabled",
+        "status": "PASS",
+        "details": "Playwright assertion passed: enabled",
+        "expected": "enabled",
+        "actual": "enabled",
+        "screenshot": null
+      },
+      {
+        "name": "Create Beneficiary List",
+        "status": "PASS",
+        "details": "",
+        "expected": null,
+        "actual": null,
+        "screenshot": null,
+        "duration": 22.62571520000347
+      },
+      {
+        "name": "Approve Beneficiary List",
+        "status": "PASS",
+        "details": "",
+        "expected": null,
+        "actual": null,
+        "screenshot": null,
+        "duration": 45.4321701000008
+      },
+      {
+        "name": "Create Payment List",
+        "status": "PASS",
+        "details": "",
+        "expected": null,
+        "actual": null,
+        "screenshot": null,
+        "duration": 88.26518950000172
+      },
+      {
+        "name": "Approve Payment List",
+        "status": "FAIL",
+        "details": "Locator expected to be visible\nActual value: None\nError: element(s) not found \nCall log:\n  - Expect \"to_be_visible\" with timeout 60000ms\n  - waiting for get_by_role(\"button\", name=\"View Payments\")\n    - waiting for\" https://cvawebapp.scibd.info/PaymentListApproval\" navigation to finish...\n    - navigated to \"https://cvawebapp.scibd.info/PaymentListApproval\"\n",
+        "expected": null,
+        "actual": null,
+        "screenshot": "screenshots/Approve_Payment_List_failure_1793854685713.png",
+        "duration": 66.83013669999491
+      }
+    ],
+    "logs": [
+      {
+        "level": "PRINT",
+        "message": "Beneficiary List ID:  C3X0E2Z8"
+      },
+      {
+        "level": "PRINT",
+        "message": "Received ID: C3X0E2Z8"
+      },
+      {
+        "level": "PRINT",
+        "message": "Received Beneficiary ID: C3X0E2Z8"
+      },
+      {
+        "level": "PRINT",
+        "message": "WLE3KVK1"
+      },
+      {
+        "level": "PRINT",
+        "message": "Payment List ID:  WLE3KVK1"
+      },
+      {
+        "level": "PRINT",
+        "message": "Received ID: WLE3KVK1"
+      }
+    ],
+    "metadata": {
+      "Browser": "chromium",
+      "URL": "https://cvawebapp.scibd.info/PaymentTrackingOverview"
+    },
+    "quality_scans": [],
+    "failure_screenshot": "screenshots/Approve_Payment_List_failure_1793854685713.png"
+  }
+]
